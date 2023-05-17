@@ -32,14 +32,14 @@ public class Dados {
 
     public Dados(Looca looca) {
         // Capturando dados da rede
-        Rede rede = looca.getRede();
-        if (rede.getGrupoDeInterfaces().getInterfaces().size() >= 0) {
-            this.redeIpv6 = String.format("%s", rede.getGrupoDeInterfaces().getInterfaces().get(0).getEnderecoIpv6().get(0));
-            this.redeMacAdress = String.format("%s", rede.getGrupoDeInterfaces().getInterfaces().get(0).getEnderecoMac());
-        } else {
-            this.redeIpv6 = "Não encontrado";
-            this.redeMacAdress = "Não encontrado";
-        }
+        //Rede rede = looca.getRede();
+        //if (rede.getGrupoDeInterfaces().getInterfaces().size() >= 0) {
+        //    this.redeIpv6 = String.format("%s", rede.getGrupoDeInterfaces().getInterfaces().get(0).getEnderecoIpv6().get(0));
+        //    this.redeMacAdress = String.format("%s", rede.getGrupoDeInterfaces().getInterfaces().get(0).getEnderecoMac());
+        //} else {
+        //    this.redeIpv6 = "Não encontrado";
+        //    this.redeMacAdress = "Não encontrado";
+        //}
 
         // Capturando dados do processador
         Processador processador = looca.getProcessador();
