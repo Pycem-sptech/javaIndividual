@@ -26,26 +26,25 @@ public class Main {
         Dados dados = new Dados(looca);
 
         System.out.println("--------------------------------");
-        System.out.println("| Bem-vindo ao Pycem Extractor |");
+        System.out.println("| Bem Vindo ao Pycem Extractor |");
         System.out.println("--------------------------------");
         String usuario = "";
         String senha = "";
-        //Login
         do {
-            System.out.println("Usuário da máquina: ");
+            System.out.println("Nome de usuário da máquina: ");
             usuario = sc.nextLine();
             System.out.println("Senha:");
             senha = sc.nextLine();
-            System.out.println("Efetuando login...");
+            System.out.println("Iniciando o processo de login...");
 
             if (!dbAzure.selectLogin(usuario, senha)) {
-                System.out.println("Login inválido, tente novamente");
+                System.out.println("Credenciais inválidas, tente novamente");
             }
 
         } while (!dbAzure.selectLogin(usuario, senha));
 
         System.out.println("Login Realizado com sucesso!");
-        Integer idTotem = dbAzure.selectIdTotem(usuario);
+        Integer totemId = dbAzure.selectIdTotem(usuario);
         Integer freqAlerta = dbAzure.selectAlerta(usuario).getFreqAlerta();
         Integer cpuAlerta = dbAzure.selectAlerta(usuario).getCpuAlerta();
         Integer cpuCritico = dbAzure.selectAlerta(usuario).getCpuCritico();
@@ -53,77 +52,72 @@ public class Main {
         Integer ramCritico = dbAzure.selectAlerta(usuario).getRamCritico();
         Integer hdAlerta = dbAzure.selectAlerta(usuario).getHdAlerta();
         Integer hdCritico = dbAzure.selectAlerta(usuario).getCpuCritico();
-        dbAzure.ligarMaquina(usuario, idTotem);
+        dbAzure.ligarMaquina(usuario, totemId);
 
-        // Verificar se é o primeiro cadastro
         if (dbAzure.verificarCadastro(usuario)) {
-            // Inserir dados, tanto no local como na azure
-            dados.inserirDadosComIntervalo(looca, cpuAlerta, cpuCritico, ramAlerta, ramCritico, hdAlerta, hdCritico, idTotem, freqAlerta);
+            dados.inserirDadosComIntervalo(looca, cpuAlerta, cpuCritico, ramAlerta, ramCritico, hdAlerta, hdCritico, totemId, freqAlerta);
 
         } else {
-            //Caso seja o primeira vez que entrou
-            System.out.println("Faça o cadastro da sua máquina:");
+            System.out.println("Realize o cadastro da sua máquina:");
             String respostaPreenchimentoAutomatico;
             do {
-                System.out.println("Deseja preenchimento automático? (s/n)");
+                System.out.println("Deseja preenchimento automático? (S/N)");
                 respostaPreenchimentoAutomatico = sc.nextLine();
-                if (!respostaPreenchimentoAutomatico.equals("s") && !respostaPreenchimentoAutomatico.equals("n")) {
-                    System.out.println("Valor errado! Insira um valor correto");
+                if (!respostaPreenchimentoAutomatico.equals("S") && !respostaPreenchimentoAutomatico.equals("N")) {
+                    System.out.println("Valor incorreto! Insira um valor válido");
                 }
 
-            } while (!respostaPreenchimentoAutomatico.equals("s") && !respostaPreenchimentoAutomatico.equals("n"));
+            } while (!respostaPreenchimentoAutomatico.equals("S") && !respostaPreenchimentoAutomatico.equals("N"));
 
-            if (respostaPreenchimentoAutomatico.equals("s")) {
-                //Rede
+            if (respostaPreenchimentoAutomatico.equals("S")) {
                 String redeIpv6 = dados.getRedeIpv6();
                 String redeMacAdress = dados.getRedeMacAdress();
 
-                System.out.println("ID Processador: ");
+                System.out.println("Identificação do Processador: ");
                 String processadorID = dados.getProcessadorID();
                 System.out.println(processadorID);
-                System.out.println("Nome Processador: ");
+                System.out.println("Nome do Processador: ");
                 String processadorNome = dados.getProcessadorNome();
                 System.out.println(processadorNome);
-                System.out.println("CPU Físicas");
+                System.out.println("Número de CPU Físicas: ");
                 String processadorCPUFisica = dados.getProcessadorCPUFisica();
                 System.out.println(processadorCPUFisica);
-                System.out.println("CPU Lógicas");
+                System.out.println("Número de CPUs Lógicas: ");
                 String processadorCPULogica = dados.getProcessadorCPULogica();
                 System.out.println(processadorCPULogica);
-                System.out.println("Memória RAM(Quantidade):");
+                System.out.println("Quantidade de Memória RAM: ");
                 String memoriaRAM = dados.getMemoriaRAM();
                 System.out.println(memoriaRAM);
-                System.out.println("Memória de Massa:");
+                System.out.println("Armazenamento de Dados: ");
                 System.out.println("Nome: ");
                 String memoriaMassa = dados.getMemoriaMassaNome();
                 System.out.println(memoriaMassa);
                 System.out.println("Tamanho: ");
                 String memoriaMassaTamanho = dados.getMemoriaMassaTamanho();
                 System.out.println(memoriaMassaTamanho);
-                System.out.println("Tipo(SDD ou HD): ");
+                System.out.println("Tipo (SDD ou HD): ");
                 String memoriaMassaTipo = sc.nextLine();
                 System.out.println("Realizando cadastro...");
-                // Inserindo as informações no banco de dados
                 dbAzure.atualizarCadastro(usuario, processadorID, processadorNome, memoriaRAM, memoriaMassaTipo, memoriaMassaTamanho, redeIpv6, redeMacAdress);
                 System.out.println("Cadastro realizado com sucesso");
-                dados.inserirDadosComIntervalo(looca, cpuAlerta, cpuCritico, ramAlerta, ramCritico, hdAlerta, hdCritico, idTotem, freqAlerta);
+                dados.inserirDadosComIntervalo(looca, cpuAlerta, cpuCritico, ramAlerta, ramCritico, hdAlerta, hdCritico, totemId, freqAlerta);
                 
             } else if (respostaPreenchimentoAutomatico.equals("n")) {
                 //Rede
                 String redeIpv6 = dados.getRedeIpv6();
                 String redeMacAdress = dados.getRedeMacAdress();
 
-                System.out.println("ID Processador: ");
+                System.out.println("Identificação do Processador: ");
                 String processadorID = sc.nextLine();
-                System.out.println("Nome Processador: ");
+                System.out.println("Nome do Processador: ");
                 String processadorNome = sc.nextLine();
-                System.out.println("CPU Físicas");
+                System.out.println("Número de CPU Físicas: ");
                 String processadorCPUFisica = sc.nextLine();
-                System.out.println("CPU Lógicas");
+                System.out.println("Número de CPU Lógicas: ");
                 String processadorCPULogica = sc.nextLine();
-                System.out.println("Memória RAM(Quantidade):");
+                System.out.println("Quantidade de Memoria RAM: ");
                 String memoriaRAM = sc.nextLine();
-                System.out.println("Memória de Massa:");
+                System.out.println("Armazenamento de Dados: ");
                 System.out.println("Nome: ");
                 String memoriaMassaNome = sc.nextLine();
                 System.out.println("Tamanho: ");
@@ -131,10 +125,9 @@ public class Main {
                 System.out.println("Tipo(SDD ou HD): ");
                 String memoriaMassaTipo = sc.nextLine();
                 System.out.println("Realizando cadastro...");
-                // Inserindo as informações no banco de dados
                 dbAzure.atualizarCadastro(usuario, processadorID, processadorNome, memoriaRAM, memoriaMassaTipo, memoriaMassaTamanho, redeIpv6, redeMacAdress);
                 System.out.println("Cadastro realizado com sucesso");
-                dados.inserirDadosComIntervalo(looca, cpuAlerta, cpuCritico, ramAlerta, ramCritico, hdAlerta, hdCritico, idTotem, freqAlerta);
+                dados.inserirDadosComIntervalo(looca, cpuAlerta, cpuCritico, ramAlerta, ramCritico, hdAlerta, hdCritico, totemId, freqAlerta);
             }
         }
     }

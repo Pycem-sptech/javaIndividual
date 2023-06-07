@@ -1,7 +1,7 @@
-database\Dados$1.class
-database\Totem.class
-database\Dados.class
-funcionalidade\Main.class
-database\Alerta.class
-database\DatabaseAzure.class
-database\DatabaseMySQL.class
+database/DatabaseMySQL.class
+database/Totem.class
+database/Alerta.class
+funcionalidade/Main.class
+database/DatabaseAzure.class
+database/Dados.class
+database/Dados$1.class
